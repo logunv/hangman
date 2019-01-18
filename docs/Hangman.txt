@@ -1,0 +1,28 @@
+Hangman document:
+
+In java, code a console hangman game.
+
+Pretend it is a kid who want this. What would you do to make console Hangman to make it exciting for a kid learning to code?
+
+Requirements:
+- present a menu to start a games, etc
+- support categories; start with kids' friendly topics such as movies, toys, states, etc.
+- make it for kids
+- display kids' friendly messages
+- display game stats
+- print hangman pictures for each stage
+
+User Guide:
+- define categories
+- store dictionaries for each category
+- run java org.games.hangman.Hangman
+
+
+Todo:
+- support sound
+- move hardcoded strings to constants
+- Test on Widows
+- print hangman picture for win stage
+
+cleanup
+

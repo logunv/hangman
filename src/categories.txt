@@ -1,0 +1,6 @@
+# Hangman categories
+states=US States
+toys=Kids' Toys
+movies=Kids' Movies
+countries=The World Countries
+
