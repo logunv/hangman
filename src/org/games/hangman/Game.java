@@ -10,7 +10,7 @@ import static org.games.hangman.IO.pause;
 import static org.games.hangman.IO.printError;
 import static org.games.hangman.IO.printInfo;
 import static org.games.hangman.IO.printRed;
-import static org.games.hangman.IO.readChar;
+import static org.games.hangman.IO.readString;
 import static org.games.hangman.Picture.printHangman;
 
 import org.games.hangman.Menu.MenuStatus;
@@ -24,8 +24,8 @@ public class Game {
 	// show game stats
 	public static void reportGameStats() {
 		Table t = new Table(false, ":-24", ":8");
-		t.print("Mumber of games played", numGames);
-		t.print("Mumber of games you won", gamesWon);
+		t.print("Number of games played", numGames);
+		t.print("Number of games you won", gamesWon);
 		if (numGames > 0) {
 			t.print("Win %", String.format("%.2f%%", (float) gamesWon / (float) numGames * 100));
 		}
@@ -81,25 +81,13 @@ public class Game {
 			return;
 		}
 
-		Menu menu = new Menu("New Game");
 		MenuItem goBack = new MenuItem("Go Back", new MenuAction() {
 			@Override
 			public MenuStatus called() {
 				return MenuStatus.DONE;
 			}
 		});
-		MenuItem newCategory = new MenuItem("Change category", new MenuAction() {
-			@Override
-			public MenuStatus called() {
-				try {
-					cat = Category.getCategory();
-				} catch (Exception e) {
-					printError(e.getMessage());
-				}
-				return MenuStatus.OK;
-			}
-		});
-		MenuItem sameCategory = new MenuItem(
+		final MenuItem sameCategory = new MenuItem(
 				"Play again in the '" + cat.getName() + "' category", 
 				new MenuAction() {
 			@Override
@@ -107,7 +95,20 @@ public class Game {
 				return MenuStatus.OK;
 			}
 		});
+		MenuItem newCategory = new MenuItem("Change category", new MenuAction() {
+			@Override
+			public MenuStatus called() {
+				try {
+					cat = Category.getCategory();
+					sameCategory.setTitle("Play again in the '" + cat.getName() + "' category");
+				} catch (Exception e) {
+					printError(e.getMessage());
+				}
+				return MenuStatus.OK;
+			}
+		});
 
+		Menu menu = new Menu("New Game");
 		menu.addMenuItem(sameCategory);
 		menu.addMenuItem(newCategory);
 		menu.addMenuItem(goBack);
@@ -140,27 +141,30 @@ public class Game {
 				printInfo(word);
 			}
 
-			char letter = readChar("Enter a letter");
-			if (!Character.isLetter(letter)) {
-				pause("Enter Letters only please.");
-				continue;
-			}
-			letter = Character.toUpperCase(letter);
-			if (tries.indexOf(letter) >= 0) {
-				pause("You entered " + letter + " already");
-				continue;
-			}
-			tries += letter + " ";
-			if (word.indexOf(letter) < 0) {
-				numTries++;
-			} else {
-				lines = replaceLetter(word, lines, letter);
-				if (lines.equals(word)) {
-					printHangman(Picture.WON);
-					showGameBoard(catName, numTries, word, lines, tries);
-					printInfo("Congratulatins! You won!");
-					gamesWon++;
-					return;
+			String answer = readString("Enter a letter or word");
+			char [] chars = answer.toCharArray();
+			for(char letter: chars) {
+				if (!Character.isLetter(letter)) {
+					pause("Enter Letters only please.");
+					continue;
+				}
+				letter = Character.toUpperCase(letter);
+				if (tries.indexOf(letter) >= 0) {
+//					pause("You entered " + letter + " already");
+//					continue;
+				}
+				tries += letter + " ";
+				if (word.indexOf(letter) < 0) {
+					numTries++;
+				} else {
+					lines = replaceLetter(word, lines, letter);
+					if (lines.equals(word)) {
+						printHangman(Picture.WON);
+						showGameBoard(catName, numTries, word, lines, tries);
+						printInfo("Congratulations! You won!");
+						gamesWon++;
+						return;
+					}
 				}
 			}
 		}

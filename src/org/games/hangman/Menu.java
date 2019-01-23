@@ -59,4 +59,7 @@ class MenuItem {
 	}
 	String help;
 	MenuAction menuAction;
+	public void setTitle(String help) {
+		this.help = help;
+	}
 }

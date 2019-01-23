@@ -15,12 +15,15 @@ public class IO {
 	static void printError(String errmsg) {
 		printRed(errmsg);
 	}
+	static void printBlue(String msg) {
+		out.println(getColor(msg, fgBlue));
+	}
 	static void printRed(String msg) {
 		err.println(getColor(msg, fgRed));
 	}
 
 	static void printInfo(String info) {
-		err.println(getColor(info, fgBlue));
+		printBlue(info);
 	}
 	
 	public static int readInt(String prompt, int min, int max) throws Exception {

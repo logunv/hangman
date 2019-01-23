@@ -18,15 +18,14 @@ import static org.games.hangman.IO.pause;
 import static org.games.hangman.IO.printError;
 import static org.games.hangman.IO.printInfo;
 import static org.games.hangman.IO.readBoolean;
-import static org.games.hangman.Picture.LOGO;
 import static org.games.hangman.Picture.printHangman;
 
 import org.games.hangman.Menu.MenuStatus;
 
 public class Hangman {
-	
 	public static void main(String [] args) {
 		try {
+			// process command line arguments
 			if(args.length > 0) {
 				if(args[0].equals("-rt")) {
 					IO.setRichText(true);
@@ -35,7 +34,7 @@ public class Hangman {
 				}
 			}
 			// print hangman logo
-			printHangman(LOGO);
+			printHangman(Picture.LOGO);
 			
 			// ask if the palyer wants to play Hangman
 			if(!readBoolean(WANT_TO_PLAY)) {
@@ -51,11 +50,10 @@ public class Hangman {
 			e.printStackTrace();
 		}
 	}
-	
+
 	// start the game
 	Hangman start() throws Exception {
 		// show the main menu
-		Menu menu = new Menu(MAIN_MENU);
 		MenuItem quit = new MenuItem(DONE_PLAYING, new MenuAction() {
 			@Override
 			public MenuStatus called() {
@@ -63,6 +61,7 @@ public class Hangman {
 				return MenuStatus.DONE;
 			}
 		});
+
 		MenuItem newGame = new MenuItem(NEW_GAME, new MenuAction() {
 			@Override
 			public MenuStatus called() {
@@ -74,6 +73,7 @@ public class Hangman {
 				return MenuStatus.OK;
 			}
 		});
+
 		MenuItem stats = new MenuItem(GAME_STATS, new MenuAction() {
 			@Override
 			public MenuStatus called() {
@@ -82,6 +82,7 @@ public class Hangman {
 			}
 		});
 		
+		Menu menu = new Menu(MAIN_MENU);
 		menu.addMenuItem(newGame);
 		menu.addMenuItem(stats);
 		menu.addMenuItem(quit);
@@ -98,3 +99,8 @@ public class Hangman {
 
 }
 
+/*
+
+Remove special characters
+
+*/

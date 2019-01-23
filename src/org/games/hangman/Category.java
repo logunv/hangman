@@ -3,8 +3,9 @@
 package org.games.hangman;
 
 import static org.games.hangman.Constants.CAT_FILE;
+import static org.games.hangman.IO.clearScreen;
 import static org.games.hangman.IO.out;
-import static org.games.hangman.IO.*;
+import static org.games.hangman.IO.printInfo;
 import static org.games.hangman.IO.readInt;
 
 import java.io.BufferedReader;
@@ -50,8 +51,10 @@ public class Category {
 	// load hangman words from the given words file
 	void loadDictionary(String file) throws Exception {
 		file = "/" + file;
-		
-		InputStream in = getClass().getResourceAsStream(file); 
+		InputStream in = getClass().getResourceAsStream(file);
+		if(in == null) {
+			throw new Exception("Dictionary not found: " + file);
+		}
 		BufferedReader fin = new BufferedReader(new InputStreamReader(in));
 		
 		String line;
@@ -61,7 +64,7 @@ public class Category {
 		
 		fin.close();
 		if(words.size() <= 0) {
-			throw new Exception("Empty words files:" + file);
+			throw new Exception("Empty words file:" + file);
 		}
 
 	}
@@ -70,11 +73,19 @@ public class Category {
 	public String getName() {
 		return name;
 	}
+	
+	Random r = new Random();
 
 	// get a random work from the words list.
 	public String getRandomWord() throws Exception {
-		Random r = new Random();
-		return words.get(r.nextInt(words.size()));
+		
+//		return words.get(r.nextInt(words.size()));
+		int rnd = r.nextInt(words.size());
+		String word = words.get(rnd);
+		words.remove(rnd);
+		
+		return word;
+		
 	}
 }
 
