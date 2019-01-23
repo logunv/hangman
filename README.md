@@ -17,4 +17,4 @@ $ cd hangman/src
 
 $ make
 
-This produces hangmanr.jar in the tools directory
+This produces hangman.jar in the tools directory
