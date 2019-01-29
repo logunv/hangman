@@ -2,7 +2,7 @@
 states=US States
 toys=Kids' Toys
 movies=Kids' Movies
-countries=The World Countries
+countries=Countries
 #disneymovies=Disney Movies
 #animatedmovies=Animated Movies
 #cities=US Cities

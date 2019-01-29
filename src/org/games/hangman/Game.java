@@ -6,7 +6,7 @@
 
 package org.games.hangman;
 
-import static org.games.hangman.IO.pause;
+import static org.games.hangman.IO.*;
 import static org.games.hangman.IO.printError;
 import static org.games.hangman.IO.printInfo;
 import static org.games.hangman.IO.printRed;
@@ -87,6 +87,14 @@ public class Game {
 				return MenuStatus.DONE;
 			}
 		});
+		final MenuItem help = new MenuItem(
+				Constants.HELP, new MenuAction() {
+			@Override
+			public MenuStatus called() {
+				showHelp();
+				return MenuStatus.OK;
+			}
+		});
 		final MenuItem sameCategory = new MenuItem(
 				"Play again in the '" + cat.getName() + "' category", 
 				new MenuAction() {
@@ -111,6 +119,7 @@ public class Game {
 		Menu menu = new Menu("New Game");
 		menu.addMenuItem(sameCategory);
 		menu.addMenuItem(newCategory);
+		//menu.addMenuItem(help);
 		menu.addMenuItem(goBack);
 
 		do {
@@ -142,6 +151,10 @@ public class Game {
 			}
 
 			String answer = readString("Enter a letter or word");
+			if(answer.equals("?")) {
+				answer = getClue(word, lines);
+				numTries += 2;
+			}
 			char [] chars = answer.toCharArray();
 			for(char letter: chars) {
 				if (!Character.isLetter(letter)) {
@@ -173,6 +186,14 @@ public class Game {
 		printRed("Well, try next time. The word was: " + word);
 	}
 
+	String getClue(String word, String line) {
+		for(int i = 0; i < line.length(); i++) {
+			if(line.charAt(i) == '-') return word.charAt(i) + "";
+		}
+		return null;
+	}
+
+
 	// given the actual word and the guessed workds, replace the given letter
 	private String replaceLetter(String word, String line, char letter) throws Exception {
 		char[] a = line.toCharArray();
@@ -187,5 +208,11 @@ public class Game {
 	final int MAX_TRIES = 6;
 
 	private static int numGames = 0, gamesWon = 0;
+	void showHelp() {
+		out.println(
+			"You can enter one or more letters\n"
+			+ "Enter ? to get a clue. This will take 2 points\n"
+		);
+	}
 
 }

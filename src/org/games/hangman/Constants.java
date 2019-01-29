@@ -12,6 +12,7 @@ public class Constants {
 	
 	static public final String SOMETHING_WRONG = "Hmm, something went wrong:";
 	static public final String INCORRECT_NUM_ERRORS = "Incorrect number of errors";
+	static public final String HELP = "Help?";
 	static public final String WANT_TO_PLAY = "Want to play Hangman?";
 	static public final String BYE = "Bye!";
 	static public final String MAIN_MENU = "Main Menu";

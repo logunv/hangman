@@ -6,7 +6,7 @@
 
 package org.games.hangman;
 
-import static org.games.hangman.Constants.BYE;
+import static org.games.hangman.Constants.*;
 import static org.games.hangman.Constants.DONE_PLAYING;
 import static org.games.hangman.Constants.GAME_STATS;
 import static org.games.hangman.Constants.HOPE_YOU_ENJOYED;
@@ -14,7 +14,7 @@ import static org.games.hangman.Constants.MAIN_MENU;
 import static org.games.hangman.Constants.NEW_GAME;
 import static org.games.hangman.Constants.SOMETHING_WRONG;
 import static org.games.hangman.Constants.WANT_TO_PLAY;
-import static org.games.hangman.IO.pause;
+import static org.games.hangman.IO.*;
 import static org.games.hangman.IO.printError;
 import static org.games.hangman.IO.printInfo;
 import static org.games.hangman.IO.readBoolean;
@@ -54,6 +54,13 @@ public class Hangman {
 	// start the game
 	Hangman start() throws Exception {
 		// show the main menu
+		MenuItem help = new MenuItem(HELP, new MenuAction() {
+			@Override
+			public MenuStatus called() {
+				printHelp();
+				return MenuStatus.OK;
+			}
+		});
 		MenuItem quit = new MenuItem(DONE_PLAYING, new MenuAction() {
 			@Override
 			public MenuStatus called() {
@@ -85,6 +92,7 @@ public class Hangman {
 		Menu menu = new Menu(MAIN_MENU);
 		menu.addMenuItem(newGame);
 		menu.addMenuItem(stats);
+		menu.addMenuItem(help);
 		menu.addMenuItem(quit);
 
 		while(menu.run() == MenuStatus.OK) pause();
@@ -96,11 +104,12 @@ public class Hangman {
 		// end the game
 		Game.reportGameStats();
 	}
+	void printHelp() {
+		out.println(
+			"Help\n"
+			+ "You can enter one or more letters\n"
+			+ "Enter ? to get a clue. This will take 2 points\n"
+		);
+	}
 
 }
-
-/*
-
-Remove special characters
-
-*/
